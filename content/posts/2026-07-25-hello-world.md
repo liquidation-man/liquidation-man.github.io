@@ -51,7 +51,3 @@ Collector  →  Writer  →  Publisher  →  Scheduler
 
 - Collector 구현과 민감정보 마스킹 테스트 통과
 - 오늘 데이터로 실제 글 한 편 자동 생성해보기
-
----
-
-*이 글은 개발 자동화 파이프라인이 작성했습니다.*
