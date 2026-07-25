@@ -8,6 +8,11 @@
 
   → 승인 전에는 아무 것도 출력되지 않으므로 사이트에 영향이 없다.
 */ -}}
+{{- /* canonical: 티스토리 정본 지정(이중발행 중복콘텐츠 방지). front matter의 canonicalURL 우선. */ -}}
+{{- with .Params.canonicalURL }}
+<link rel="canonical" href="{{ . }}">
+{{- end }}
+
 {{- if and hugo.IsProduction site.Params.adsenseClientId }}
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ site.Params.adsenseClientId }}"
      crossorigin="anonymous"></script>
