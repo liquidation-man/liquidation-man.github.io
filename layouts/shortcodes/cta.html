@@ -1,0 +1,34 @@
+{{- /*
+  {{< cta type="kmong" url="..." >}} — 글 하단 전환 유도 박스(퍼널).
+  type: kmong | youtube | newsletter | custom
+  광고보다 전환단가가 높은 "기존 수익원 퍼널". UTM 자동 부착.
+  url 미지정 시 type별 기본 문구만(링크는 계정/gig 확정 후 주입).
+*/ -}}
+{{- $type := .Get "type" | default "custom" -}}
+{{- $url := .Get "url" -}}
+{{- $title := .Get "title" -}}
+{{- $desc := .Get "desc" -}}
+{{- if eq $type "kmong" -}}
+  {{- $title = $title | default "이런 작업, 대신 해드립니다" -}}
+  {{- $desc = $desc | default "블로그에서 소개한 자동화·문서·개발 서비스를 크몽에서 의뢰할 수 있습니다." -}}
+  {{- $url = printf "%s%s" $url "?utm_source=blog&utm_medium=cta&utm_campaign=kmong" -}}
+{{- else if eq $type "youtube" -}}
+  {{- $title = $title | default "영상으로도 보기" -}}
+  {{- $desc = $desc | default "이 작업의 결과물을 유튜브에서 영상으로 확인해보세요." -}}
+{{- else if eq $type "newsletter" -}}
+  {{- $title = $title | default "새 글을 놓치지 않으려면" -}}
+  {{- $desc = $desc | default "매일 올라오는 자동화 개발일지를 구독으로 받아보세요." -}}
+{{- end -}}
+<div class="cta-box" style="margin:2rem 0;padding:1.2rem 1.4rem;border:1px solid var(--primary);border-radius:10px;background:var(--code-bg);">
+  <strong style="font-size:1.05rem;">{{ $title }}</strong>
+  <p style="margin:0.4rem 0 0.8rem;opacity:0.85;">{{ $desc }}</p>
+  {{- if $url }}
+  <a href="{{ $url }}" target="_blank" rel="noopener"
+     style="display:inline-block;padding:0.55rem 1.2rem;border-radius:6px;background:var(--primary);color:var(--theme);text-decoration:none;font-weight:600;">
+    바로가기 →
+  </a>
+  {{- else }}
+  <span style="opacity:0.5;font-size:0.9rem;">(링크 준비 중)</span>
+  {{- end }}
+</div>
+{{- /* {{< /cta >}} 없이 단독 사용 */ -}}

@@ -1,0 +1,14 @@
+{{- /*
+  {{< affiliate url="..." label="..." >}} — 제휴 링크(쿠팡 파트너스 등).
+  승인·쿠키 정책상 rel=nofollow sponsored + 고지 문구를 자동으로 붙인다.
+  사용: {{< affiliate url="https://link.coupang.com/..." label="개발 서적 보기" >}}
+*/ -}}
+{{- $url := .Get "url" -}}
+{{- $label := .Get "label" | default "상품 보러가기" -}}
+<span class="aff-link" style="display:inline-block;margin:0.3rem 0;">
+  <a href="{{ $url }}" target="_blank" rel="nofollow sponsored noopener"
+     style="display:inline-block;padding:0.5rem 1rem;border:1px solid var(--primary);border-radius:6px;text-decoration:none;">
+    🔗 {{ $label }}
+  </a>
+  <small style="opacity:0.6;margin-left:0.4rem;">(제휴 링크)</small>
+</span>
