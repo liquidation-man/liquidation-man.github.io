@@ -1,0 +1,9 @@
+# Hugo 빌드 산출물 (GitHub Actions가 서버에서 빌드하므로 커밋하지 않음)
+/public/
+/resources/_gen/
+/.hugo_build.lock
+hugo_stats.json
+
+# OS
+.DS_Store
+Thumbs.db

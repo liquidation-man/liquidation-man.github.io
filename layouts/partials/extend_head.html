@@ -1,0 +1,28 @@
+{{- /*
+  extend_head.html — PaperMod가 <head> 끝에서 호출하는 확장 지점.
+  Google AdSense 스크립트를 여기서 조건부로 주입한다.
+
+  활성 조건:
+    1) hugo.IsProduction (개발 서버에서는 광고 미삽입)
+    2) site.Params.adsenseClientId 값이 존재 (승인 후 config가 채움)
+
+  → 승인 전에는 아무 것도 출력되지 않으므로 사이트에 영향이 없다.
+*/ -}}
+{{- if and hugo.IsProduction site.Params.adsenseClientId }}
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ site.Params.adsenseClientId }}"
+     crossorigin="anonymous"></script>
+{{- end }}
+
+{{- /* 추가 SEO: 사이트 전역 구조화 데이터(WebSite) — 검색 유입 보조 */ -}}
+{{- if .IsHome }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ site.Title }},
+  "url": {{ site.BaseURL }},
+  "description": {{ site.Params.description }},
+  "inLanguage": "ko-KR"
+}
+</script>
+{{- end }}

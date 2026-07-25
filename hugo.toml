@@ -1,0 +1,131 @@
+# ============================================================
+#  부업 자동화 개발일지 — Hugo + PaperMod 설정
+#  이 값들 중 배포/수익화 관련은 ../config.yaml 에서 파생되며,
+#  Publisher가 필요 시 이 파일을 갱신할 수 있다.
+# ============================================================
+
+baseURL = "https://liquidation-man.github.io/"
+locale = "ko-kr"
+defaultContentLanguage = "ko"
+title = "부업 자동화 개발일지"
+theme = "PaperMod"
+
+enableRobotsTXT = true       # robots.txt 자동 생성 (sitemap 링크 포함)
+enableInlineShortcodes = true
+enableEmoji = true
+hasCJKLanguage = true        # 한국어 단어수/요약 계산 정확도
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
+pluralizeListTitles = false
+summaryLength = 70
+
+[pagination]
+  pagerSize = 10
+
+[minify]
+  disableXML = true
+  minifyOutput = true
+
+# 홈에 검색(JSON)·RSS 출력 활성화
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+# ------------------------------------------------------------
+#  PaperMod 파라미터
+# ------------------------------------------------------------
+[params]
+  env = "production"          # sitemap/GA/구조화데이터 등 프로덕션 기능 on
+  title = "부업 자동화 개발일지"
+  description = "매일 여러 프로젝트를 자동화하며 배운 것들을 기록합니다 — 트레이딩 봇, 유튜브, 게임, AI까지. 개발 자동화 파이프라인이 사람 개입 없이 써 내려가는 일지."
+  keywords = ["개발일지", "자동화", "부업", "파이썬", "Hugo", "GitHub Actions", "트레이딩봇", "유튜브자동화", "게임개발", "AI"]
+  author = "liquidation-man"
+  DateFormat = "2006년 1월 2일"
+  mainSections = ["posts"]    # 홈·RSS·검색이 대상으로 삼는 주요 섹션
+
+  defaultTheme = "auto"       # 다크/라이트 자동 (모바일 시스템 설정 따라감)
+  disableThemeToggle = false
+  ShowReadingTime = true
+  ShowShareButtons = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowWordCount = true
+  ShowToc = true
+  TocOpen = false
+  ShowRssButtonInSectionTermList = true
+  ShowFullTextinRSS = false
+  comments = false
+  hidemeta = false
+  hideSummary = false
+
+  # --- AdSense (승인 후 ../config.yaml 의 adsense.client_id 만 채우면 활성) ---
+  # 이 값이 비어 있으면 광고 스크립트가 삽입되지 않는다.
+  adsenseClientId = ""
+
+  # 홈 상단 인사말 (프로필 모드 대신 심플한 인트로)
+  [params.homeInfoParams]
+    Title = "부업 자동화 개발일지 👋"
+    Content = "여러 사이드 프로젝트(자동매매 봇, 유튜브 콘텐츠 자동화, 로그라이크 게임, AI 인플루언서 등)를 매일 조금씩 넓혀가며, 그날 무엇을 왜 어떻게 했는지 자동으로 기록합니다. 이 글들은 파이프라인이 사람 손 없이 씁니다."
+
+  [params.assets]
+    disableHLJS = true
+    favicon = "/favicon.ico"
+    apple_touch_icon = "/apple-touch-icon.png"
+
+  # SEO/공유용 소셜 아이콘 (RSS만 우선; 나머지는 계정 생기면 추가)
+  [[params.socialIcons]]
+    name = "rss"
+    url = "index.xml"
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/liquidation-man"
+
+# ------------------------------------------------------------
+#  상단 메뉴
+# ------------------------------------------------------------
+[menu]
+  [[menu.main]]
+    identifier = "posts"
+    name = "글"
+    url = "/posts/"
+    weight = 10
+  [[menu.main]]
+    identifier = "tags"
+    name = "태그"
+    url = "/tags/"
+    weight = 20
+  [[menu.main]]
+    identifier = "archives"
+    name = "아카이브"
+    url = "/archives/"
+    weight = 30
+  [[menu.main]]
+    identifier = "search"
+    name = "검색"
+    url = "/search/"
+    weight = 40
+  [[menu.main]]
+    identifier = "about"
+    name = "소개"
+    url = "/about/"
+    weight = 50
+  [[menu.main]]
+    identifier = "contact"
+    name = "연락처"
+    url = "/contact/"
+    weight = 55
+
+# ------------------------------------------------------------
+#  코드 하이라이트 / 마크다운
+# ------------------------------------------------------------
+[markup]
+  [markup.highlight]
+    noClasses = false
+    codeFences = true
+    guessSyntax = true
+    lineNos = false
+    style = "monokai"
+  [markup.goldmark.renderer]
+    unsafe = true   # 글 안에 광고/HTML(In-article AdSense) 삽입 허용

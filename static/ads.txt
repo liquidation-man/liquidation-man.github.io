@@ -1,0 +1,6 @@
+# ads.txt — Google AdSense 승인 후 아래 한 줄을 채워 넣으세요.
+# 형식: google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+# (pub-... 는 AdSense 계정의 게시자 ID)
+#
+# 승인 전에는 이 파일이 주석만 담고 있어도 무방합니다.
+# config.yaml 의 adsense.publisher_id 를 채우면 배포 시 이 줄이 자동 생성됩니다.

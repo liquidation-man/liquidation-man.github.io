@@ -1,0 +1,17 @@
+{{- /*
+  {{< ad >}} — 글 본문 중간에 넣는 In-article 광고 자리.
+  Writer가 원하면 본문에 삽입할 수 있고, 승인 전(client_id 없음)에는
+  아무 것도 렌더링되지 않는다. slot 파라미터로 광고 단위 지정 가능:
+    {{< ad slot="1234567890" >}}
+*/ -}}
+{{- if and hugo.IsProduction site.Params.adsenseClientId }}
+<div class="ad-inarticle" style="margin:2rem 0;text-align:center;">
+  <ins class="adsbygoogle"
+       style="display:block;text-align:center;"
+       data-ad-layout="in-article"
+       data-ad-format="fluid"
+       data-ad-client="{{ site.Params.adsenseClientId }}"
+       {{ with .Get "slot" }}data-ad-slot="{{ . }}"{{ end }}></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+{{- end }}
