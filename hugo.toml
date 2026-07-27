@@ -116,6 +116,11 @@ summaryLength = 70
     name = "연락처"
     url = "/contact/"
     weight = 55
+  [[menu.main]]
+    identifier = "privacy"
+    name = "개인정보처리방침"
+    url = "/privacy/"
+    weight = 60
 
 # ------------------------------------------------------------
 #  코드 하이라이트 / 마크다운
