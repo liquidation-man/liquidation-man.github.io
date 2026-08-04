@@ -1,17 +1,21 @@
 {{- /*
   extend_head.html — PaperMod가 <head> 끝에서 호출하는 확장 지점.
-  Google AdSense 스크립트를 여기서 조건부로 주입한다.
 
-  활성 조건:
+  변경점: canonical 블록을 제거했다.
+  PaperMod의 head.html 이 이미 모든 페이지에 canonical 을 출력하고 있고,
+  front matter 의 canonicalURL 이 있으면 그 값을 쓴다(고정 커밋 154d006e 확인).
+  여기서 또 넣으면 티스토리 이중발행 글마다 canonical 태그가 두 개 나간다.
+  중복 canonical 은 검색엔진이 둘 다 무시할 수 있어, 정본 지정 자체가 무력화된다.
+  → 이중발행 정본 지정은 front matter 의 canonicalURL 만으로 그대로 동작한다.
+
+  AdSense 활성 조건:
     1) hugo.IsProduction (개발 서버에서는 광고 미삽입)
     2) site.Params.adsenseClientId 값이 존재 (승인 후 config가 채움)
-
   → 승인 전에는 아무 것도 출력되지 않으므로 사이트에 영향이 없다.
+
+  참고: GA4·서치콘솔·네이버 인증은 여기가 아니라 hugo.toml 설정만으로 붙는다.
+  PaperMod 가 내장 파셜로 처리한다. hugo.toml.patch.md 참고.
 */ -}}
-{{- /* canonical: 티스토리 정본 지정(이중발행 중복콘텐츠 방지). front matter의 canonicalURL 우선. */ -}}
-{{- with .Params.canonicalURL }}
-<link rel="canonical" href="{{ . }}">
-{{- end }}
 
 {{- if and hugo.IsProduction site.Params.adsenseClientId }}
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ site.Params.adsenseClientId }}"
