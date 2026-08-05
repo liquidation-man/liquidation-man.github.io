@@ -33,6 +33,21 @@ summaryLength = 70
   home = ["HTML", "RSS", "JSON"]
 
 # ------------------------------------------------------------
+#  측정 — Google Analytics 4
+# ------------------------------------------------------------
+# ⚠️ **빈 값으로 둔다. 가짜 placeholder 를 넣지 마라.**
+#    Hugo 내장 파셜이 `with` 로 감싸 출력하므로 빈 값이면 스크립트가 아예 나가지
+#    않는다. 반대로 `G-XXXXXXXXXX` 같은 가짜 값을 넣으면 실제 사이트에 잘못된
+#    ID 로 gtag 가 실려서, 측정은 안 되는데 광고 차단기·정책 검사만 걸린다.
+#
+#    받는 곳: analytics.google.com → 관리(⚙) → 데이터 스트림 → 웹 스트림 선택
+#             → 오른쪽 위 '측정 ID' (형식: G-XXXXXXXXXX)
+#    넣는 곳: 아래 ID = "" 의 따옴표 안.
+[services]
+  [services.googleAnalytics]
+    ID = ""
+
+# ------------------------------------------------------------
 #  PaperMod 파라미터
 # ------------------------------------------------------------
 [params]
@@ -63,6 +78,29 @@ summaryLength = 70
   # --- AdSense (승인 후 ../config.yaml 의 adsense.client_id 만 채우면 활성) ---
   # 이 값이 비어 있으면 광고 스크립트가 삽입되지 않는다.
   adsenseClientId = ""
+
+  # --- 검색엔진 소유확인 (PaperMod 내장 처리, 고정 커밋 154d006e 에서 확인) ---
+  #
+  # ⚠️ 여기도 **빈 값으로 둔다.** 테마가 `if` 로 감싸므로 빈 값이면 meta 태그가
+  #    출력되지 않는다. 가짜 값을 넣으면 태그는 나가는데 소유확인은 실패하고,
+  #    그 상태로는 등록 절차를 다시 밟아야 한다.
+  #
+  # ⚠️ 넣는 것은 **meta 태그 전체가 아니라 content 값 하나**다.
+  #    받은 것이 <meta name="google-site-verification" content="abc123" /> 라면
+  #    넣을 값은 abc123 뿐이다. 태그째 붙이면 HTML 이 깨진다.
+  [params.analytics]
+    [params.analytics.google]
+      # Google Search Console → 속성 추가 → URL 접두어
+      #   https://liquidation-man.github.io/ → 소유권 확인 → 'HTML 태그' 방식
+      SiteVerificationTag = ""
+    [params.analytics.naver]
+      # 네이버 서치어드바이저(searchadvisor.naver.com) → 웹마스터도구
+      #   → 사이트 등록 → 소유확인 → 'HTML 태그' 방식
+      SiteVerificationTag = ""
+    [params.analytics.bing]
+      # Bing 웹마스터도구(bing.com/webmasters). Search Console 에서 가져오기를
+      # 쓰면 소유확인 없이 등록되므로 대개 이 값은 비워 둬도 된다.
+      SiteVerificationTag = ""
 
   # 홈 상단 인사말 (프로필 모드 대신 심플한 인트로)
   [params.homeInfoParams]
