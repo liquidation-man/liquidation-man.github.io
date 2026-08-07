@@ -1,0 +1,35 @@
+# 유료 전자책의 결론에서만 나오는 문구 목록.
+# .github/workflows/no-ebook-spoiler.yml 이 새 글에서 이걸 찾는다.
+#
+# 규칙: 흔한 단어(토큰·권한·설치 같은)는 넣지 않는다.
+#   오탐이 잦으면 아무도 빨간 X 를 안 보게 된다.
+#   각 장의 "결론"에서만 나올 법한 특징적인 표현만 넣는다.
+# '#' 로 시작하는 줄과 빈 줄은 무시된다.
+
+# 6장 — 「없다」는 「PATH 에 없다」였다
+not recognized as an internal or external command
+축소된 PATH
+축소 PATH
+PATH에 없
+PATH 에 없
+
+# 4장 — 토큰·한도
+Context limit reached
+5시간 창
+
+# 3장 — 접근 범위
+Resource not accessible by integration
+커넥터는 계정에
+
+# 2장 — 승인 프롬프트
+Claude needs your permission
+dangerously-skip-permissions
+승인 프롬프트
+무승인 인자
+
+# 5장 — 「완료했습니다」 후 번복
+File has not been read yet
+자기 자신을 세
+
+# 1장 — 떠넘기기
+대리 실행기

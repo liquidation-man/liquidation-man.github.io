@@ -1,0 +1,75 @@
+# 새 글이 유료 전자책의 결론을 흘리는지 검사한다.
+#
+# 왜 있나: 이 블로그는 무료이고, 같은 소재의 전자책이 4,900원에 팔린다.
+#   개발일지가 자동 발행되므로 사람이 매번 검토하지 못한다. 그래서 기계가 본다.
+#
+# 배포와 분리돼 있다. 이 검사가 실패해도 사이트는 그대로 배포된다.
+#   이 블로그는 한 번 여섯 달 죽은 적이 있어서, 검사 실패로 사이트가 내려가는
+#   구조는 일부러 만들지 않았다. 빨간 X 는 "사람이 보라"는 신호다.
+#
+# 검사할 문구는 .github/ebook-protected-phrases.txt 에 있다.
+#   워크플로 안에 히어독으로 넣으면 YAML 블록이 열 0 에서 끊겨 파일이 깨진다.
+#   그래서 목록을 파일로 뺐다. 목록만 고칠 때 이 파일은 건드릴 필요 없다.
+#
+# 판정 기준 전체: 저장소 루트의 CLAUDE.md
+
+name: 전자책 내용 유출 검사
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "content/posts/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: 이번 push 에서 새로 추가된 줄만 검사
+        run: |
+          set -u
+          LIST=.github/ebook-protected-phrases.txt
+          if [ ! -f "$LIST" ]; then
+            echo "::warning::$LIST 가 없어 검사를 건너뜁니다."
+            exit 0
+          fi
+          grep -v '^\s*#' "$LIST" | grep -v '^\s*$' > /tmp/phrases.txt || true
+          if [ ! -s /tmp/phrases.txt ]; then
+            echo "검사할 문구가 없습니다."
+            exit 0
+          fi
+          if git rev-parse HEAD^ >/dev/null 2>&1; then
+            git diff HEAD^ HEAD -- content/posts/ > /tmp/d.txt || true
+          else
+            git show HEAD -- content/posts/ > /tmp/d.txt || true
+          fi
+          grep '^+' /tmp/d.txt | grep -v '^+++' > /tmp/added.txt || true
+          if [ ! -s /tmp/added.txt ]; then
+            echo "검사할 새 글 내용이 없습니다."
+            exit 0
+          fi
+          if grep -oFf /tmp/phrases.txt /tmp/added.txt | sort -u > /tmp/hits.txt && [ -s /tmp/hits.txt ]; then
+            while IFS= read -r h; do
+              echo "::error::유료 전자책과 겹치는 문구가 있습니다 → 「$h」"
+            done < /tmp/hits.txt
+            echo ""
+            echo "-----------------------------------------------"
+            echo "이 블로그는 무료이고, 같은 소재의 전자책은 4,900원에 팔립니다."
+            echo "도구 자체의 함정과 해법은 책에만 둡니다."
+            echo "무엇을 만들었는지는 얼마든지 써도 됩니다."
+            echo ""
+            echo "판정 기준: 저장소 루트의 CLAUDE.md"
+            echo "문구 목록:  .github/ebook-protected-phrases.txt"
+            echo "사이트 배포는 이 검사와 무관하게 정상 진행됐습니다."
+            echo "-----------------------------------------------"
+            exit 1
+          fi
+          echo "겹치는 문구 없음."
