@@ -1,6 +1,17 @@
-# ads.txt — Google AdSense 승인 후 아래 한 줄을 채워 넣으세요.
-# 형식: google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
-# (pub-... 는 AdSense 계정의 게시자 ID)
+# ads.txt — Google AdSense 승인 후 아래 한 줄을 **손으로** 채운다.
 #
-# 승인 전에는 이 파일이 주석만 담고 있어도 무방합니다.
-# config.yaml 의 adsense.publisher_id 를 채우면 배포 시 이 줄이 자동 생성됩니다.
+# 형식: google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+# (pub-... 는 AdSense 계정의 게시자 ID. hugo.toml 의 adsenseClientId 가
+#  `ca-pub-1234…` 라면 여기에는 `pub-1234…` 로 `ca-` 를 뗀 값이 들어간다.)
+#
+# ⚠️ 2026-08-08 정정 — 이 파일은 **자동 생성되지 않는다.**
+#    한동안 여기에 "config.yaml 의 adsense.publisher_id 를 채우면 배포 시 이 줄이
+#    자동 생성됩니다"라고 적혀 있었다. 그 config.yaml 은 **유실된 옛 파이프라인**의
+#    것이고 이 저장소에는 없다. 그대로 믿으면 광고를 켠 뒤에도 ads.txt 가 빈 채로
+#    남아 AdSense 가 "인증되지 않은 판매자" 경고를 띄운다.
+#
+#    빌드로 확인한 사실(2026-08-08): `hugo.toml` 의 `adsenseClientId` 를 채우면
+#    광고 스크립트는 **모든 페이지에 정상으로 붙는다**(`layouts/partials/extend_head.html`).
+#    자동으로 안 되는 것은 이 파일 하나뿐이다.
+#
+# 승인 전에는 주석만 있어도 무방하다.
