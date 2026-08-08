@@ -1,4 +1,4 @@
-# 새 글이 유료 전자책의 결론을 흘리는지 검사한다.
+# 새 글과 판매 문구가 유료 전자책의 결론을 흘리는지 검사한다.
 #
 # 왜 있나: 이 블로그는 무료이고, 같은 소재의 전자책이 4,900원에 팔린다.
 #   개발일지가 자동 발행되므로 사람이 매번 검토하지 못한다. 그래서 기계가 본다.
@@ -20,6 +20,10 @@ on:
     branches: ["main"]
     paths:
       - "content/posts/**"
+      # 판매 문구는 글이 아니라 레이아웃에 있다. 2026-08-08 점검에서 드러났다 —
+      # 모든 글 하단에 상시 노출되는 전자책 CTA 가 정작 검사 밖이었다.
+      # ⚠️ 여기만 넓히면 소용없다. 아래 `git diff` 의 경로도 같이 넓혀야 한다.
+      - "layouts/**"
   workflow_dispatch:
 
 permissions:
@@ -33,7 +37,7 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: 이번 push 에서 새로 추가된 줄만 검사
+      - name: 이번 push 에서 새로 추가된 줄만 검사 (글 + 레이아웃)
         run: |
           set -u
           LIST=.github/ebook-protected-phrases.txt
@@ -46,14 +50,16 @@ jobs:
             echo "검사할 문구가 없습니다."
             exit 0
           fi
+          # 검사 대상 = 글 + 레이아웃. 위 `paths:` 와 반드시 같이 유지한다.
+          TARGETS="content/posts/ layouts/"
           if git rev-parse HEAD^ >/dev/null 2>&1; then
-            git diff HEAD^ HEAD -- content/posts/ > /tmp/d.txt || true
+            git diff HEAD^ HEAD -- $TARGETS > /tmp/d.txt || true
           else
-            git show HEAD -- content/posts/ > /tmp/d.txt || true
+            git show HEAD -- $TARGETS > /tmp/d.txt || true
           fi
           grep '^+' /tmp/d.txt | grep -v '^+++' > /tmp/added.txt || true
           if [ ! -s /tmp/added.txt ]; then
-            echo "검사할 새 글 내용이 없습니다."
+            echo "검사할 새 내용이 없습니다 (글·레이아웃 모두)."
             exit 0
           fi
           if grep -oFf /tmp/phrases.txt /tmp/added.txt | sort -u > /tmp/hits.txt && [ -s /tmp/hits.txt ]; then

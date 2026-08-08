@@ -3,9 +3,14 @@
 이 블로그는 **무료로 공개**된다. 그리고 같은 소재로 만든 **유료 전자책**이 따로 팔리고 있다.
 여기에 책의 결론을 적으면 파는 물건을 공짜로 주는 셈이 된다.
 
-> **판매 중**: 「AI가 「못 한다」고 할 때, 대부분은 안 해본 것이다」
-> https://latpeed.com/products/C1qGw · 4,900원 · A4 20쪽
+> **판매 중**: 「클로드 코드가 못 한다고 할 때, 실제로는 되는 8가지 (PDF 20쪽)」
+> https://latpeed.com/products/C1qGw · 4,900원 · A4 20쪽 · 래피드(Latpeed)
 > 원고 원본: `liquidation-man/side-projects` → `monetization/ebook-claude-orca/manuscript.md`
+> 리스팅 정본: `liquidation-man/biz` → `channels/ebook/README.md`
+>
+> ⚠️ **상품명은 판매 페이지가 최종 권위다.** 2026-08-08 에 래피드에서 이름을 바꿨는데
+> 이 문서와 글 하단 CTA 가 옛 이름으로 남아 **없는 상품을 광고하고 있었다.**
+> 이름을 고치는 날은 여기와 `layouts/_partials/extend_post_content.html` 을 같이 고친다.
 
 ## 쓰면 안 되는 것 — 이게 이 문서의 핵심이다
 
