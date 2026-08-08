@@ -24,6 +24,18 @@ summaryLength = 70
 [pagination]
   pagerSize = 10
 
+# 분류축은 둘이다 (2026-08-08 사용자 결정).
+#   categories = 큰 묶음 (투자 · 모바일앱개발 · 게임개발 · 콘텐츠 자동화 · 개발 인프라 · 수익화)
+#   series     = 그 안의 프로젝트 (가상화폐 · 퇴직연금 · 라이더 로그 · 연 · 지옥철 …)
+#
+# ⚠️ `series` 를 추가하려면 기본 택소노미(category·tag)도 **같이 적어야 한다.**
+#    이 블록을 쓰는 순간 Hugo 의 기본값이 통째로 대체되므로, 하나라도 빠뜨리면
+#    그 축이 조용히 사라진다(태그 페이지가 404가 된다).
+[taxonomies]
+  category = "categories"
+  series = "series"
+  tag = "tags"
+
 [minify]
   disableXML = true
   minifyOutput = true

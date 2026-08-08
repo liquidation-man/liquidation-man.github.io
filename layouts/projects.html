@@ -1,14 +1,19 @@
 {{- /*
-  프로젝트별 진행내역 페이지.
+  프로젝트별 진행내역 — 2단계 (카테고리 > 시리즈).
 
-  카테고리 = 프로젝트다(2026-08-08 결정). 카테고리를 **최근 활동 순**으로 세우고
-  그 아래에 글을 최신순으로 붙인다. 어느 프로젝트가 살아 있고 어디가 멈췄는지
-  목록만 보고 알 수 있게 하는 것이 이 페이지의 전부다.
+  분류축이 둘이다(2026-08-08 사용자 결정):
+    categories = 큰 묶음 (투자 · 모바일앱개발 · …)
+    series     = 그 안의 프로젝트 (가상화폐 · 라이더 로그 · …)
 
-  ⚠️ CSS 를 새로 만들지 않는다. PaperMod 의 archives.html 이 쓰는 클래스
-     (archive-year / archive-year-header / archive-posts / archive-entry)를 그대로
-     빌려 쓴다. 테마가 서브모듈이라 우리가 스타일을 얹으면 테마 업데이트 때
-     어긋나고, 이 블로그는 한 번 여섯 달 죽은 적이 있어 그런 위험을 안 만든다.
+  카테고리를 **최근 활동순**으로 세우고, 그 안에서 시리즈를 다시 최근 활동순으로
+  세운다. 어느 갈래가 살아 있고 어디가 멈췄는지 목록만 보고 알게 하는 것이 전부다.
+
+  ⚠️ `site.Taxonomies.<축>` 의 map 키를 직접 쓰지 마라. 정규화된 키라 대소문자가
+     뭉개진다 — 「AI 인플루언서」가 「ai 인플루언서」로 나온다(2026-08-08 실측).
+     텀 페이지를 돌면 `.Title` 이 원래 표기를 준다.
+
+  ⚠️ CSS 를 새로 만들지 않는다. PaperMod 의 archive-* 클래스를 빌려 쓴다.
+     테마가 서브모듈이라 우리 스타일을 얹으면 업데이트 때 어긋난다.
 */ -}}
 {{- define "main" }}
 
@@ -19,46 +24,97 @@
   {{- end }}
 </header>
 
-{{- /* ⚠️ site.Taxonomies.categories 를 직접 돌지 마라. 그 map 의 키는 **정규화된**
-       분류 키라 대소문자가 뭉개진다 — "AI 인플루언서" 가 "ai 인플루언서" 로 나온다
-       (2026-08-08 실측). 텀 페이지를 돌면 .Title 이 원래 표기를 그대로 준다. */ -}}
-{{- $projects := slice }}
-{{- with site.GetPage "/categories" }}
+{{- /* 시리즈 텀 페이지를 이름으로 찾아 쓰려고 미리 모아 둔다. */ -}}
+{{- $seriesPages := dict }}
+{{- with site.GetPage "/series" }}
   {{- range .Pages }}
-    {{- $pages := .Pages.ByDate.Reverse }}
-    {{- with index $pages 0 }}
-    {{- else }}
-      {{- continue }}
-    {{- end }}
-    {{- $projects = $projects | append (dict
-        "name" .Title
-        "url" .RelPermalink
-        "pages" $pages
-        "latest" (index $pages 0).Date) }}
+    {{- $seriesPages = merge $seriesPages (dict .Title .) }}
   {{- end }}
 {{- end }}
 
-{{- range sort $projects "latest" "desc" }}
+{{- $cats := slice }}
+{{- with site.GetPage "/categories" }}
+  {{- range .Pages }}
+    {{- $pages := .Pages.ByDate.Reverse }}
+    {{- if gt (len $pages) 0 }}
+      {{- $cats = $cats | append (dict
+          "name" .Title "url" .RelPermalink
+          "pages" $pages "latest" (index $pages 0).Date) }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{- range sort $cats "latest" "desc" }}
+{{- $cat := . }}
 <div class="archive-year">
   <h2 class="archive-year-header" id="{{ .name | urlize }}">
-    <a class="archive-header-link" href="{{ .url }}">
-      {{- .name -}}
-    </a>
+    <a class="archive-header-link" href="{{ .url }}">{{ .name }}</a>
     <sup class="archive-count">&nbsp;글 {{ len .pages }}편 · 최근 {{ .latest.Format "2006-01-02" }}</sup>
   </h2>
-  <div class="archive-posts">
-    {{- range .pages }}
-    <div class="archive-entry">
-      <h3 class="archive-entry-title entry-hint-parent">
-        {{- .Title | markdownify -}}
-      </h3>
-      <div class="archive-meta">
-        {{- partial "post_meta.html" . -}}
-      </div>
-      <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
-    </div>
+
+  {{- /* 이 카테고리에 실제로 등장하는 시리즈만 모은다. */ -}}
+  {{- $names := slice }}
+  {{- range $cat.pages }}
+    {{- range (.Params.series | default slice) }}
+      {{- if not (in $names .) }}{{ $names = $names | append . }}{{ end }}
     {{- end }}
+  {{- end }}
+
+  {{- $groups := slice }}
+  {{- range $name := $names }}
+    {{- /* ⚠️ 중첩 range 안에서 `$` 로 바깥 루프 변수를 가리키려 하지 마라.
+           `$` 는 최상위 컨텍스트다. 이름을 `$name` 으로 묶어 두고 그것을 쓴다. */ -}}
+    {{- $surl := "" }}
+    {{- with index $seriesPages $name }}{{ $surl = .RelPermalink }}{{ end }}
+    {{- $items := slice }}
+    {{- range $cat.pages }}
+      {{- if in (.Params.series | default slice) $name }}{{ $items = $items | append . }}{{ end }}
+    {{- end }}
+    {{- if gt (len $items) 0 }}
+      {{- $groups = $groups | append (dict
+          "name" $name "url" $surl
+          "items" $items "latest" (index $items 0).Date) }}
+    {{- end }}
+  {{- end }}
+
+  {{- range sort $groups "latest" "desc" }}
+  <div class="archive-month">
+    <h3 class="archive-month-header" id="{{ $cat.name | urlize }}-{{ .name | urlize }}">
+      {{- if .url }}<a class="archive-header-link" href="{{ .url }}">{{ .name }}</a>
+      {{- else }}{{ .name }}{{ end }}
+      <sup class="archive-count">&nbsp;{{ len .items }}편 · {{ .latest.Format "2006-01-02" }}</sup>
+    </h3>
+    <div class="archive-posts">
+      {{- range .items }}
+      <div class="archive-entry">
+        <h3 class="archive-entry-title entry-hint-parent">{{ .Title | markdownify }}</h3>
+        <div class="archive-meta">{{- partial "post_meta.html" . -}}</div>
+        <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+      </div>
+      {{- end }}
+    </div>
   </div>
+  {{- end }}
+
+  {{- /* 시리즈가 안 달린 글은 빠뜨리지 않고 따로 보여준다 — 분류 누락을 눈에 띄게 한다. */ -}}
+  {{- $orphans := slice }}
+  {{- range $cat.pages }}
+    {{- if not .Params.series }}{{ $orphans = $orphans | append . }}{{ end }}
+  {{- end }}
+  {{- if gt (len $orphans) 0 }}
+  <div class="archive-month">
+    <h3 class="archive-month-header">시리즈 미지정<sup class="archive-count">&nbsp;{{ len $orphans }}편</sup></h3>
+    <div class="archive-posts">
+      {{- range $orphans }}
+      <div class="archive-entry">
+        <h3 class="archive-entry-title">{{ .Title | markdownify }}</h3>
+        <div class="archive-meta">{{- partial "post_meta.html" . -}}</div>
+        <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+      </div>
+      {{- end }}
+    </div>
+  </div>
+  {{- end }}
 </div>
 {{- end }}
 
