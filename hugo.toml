@@ -104,7 +104,11 @@ summaryLength = 70
     [params.analytics.google]
       # Google Search Console → 속성 추가 → URL 접두어
       #   https://liquidation-man.github.io/ → 소유권 확인 → 'HTML 태그' 방식
-      SiteVerificationTag = ""
+      #
+      # 2026-08-08 등록. 이 값은 비밀이 아니다 — 모든 페이지의 <head> 에 그대로
+      # 실려 나가는 공개 문자열이고, 그게 소유 확인의 원리다. 커밋해도 된다.
+      # ⚠️ 지우면 소유권 확인이 풀려 서치콘솔 데이터가 끊긴다. 확인 후에도 남겨 둔다.
+      SiteVerificationTag = "5A6ymGugf_VFLDuCHSFpYJTfkL-Pzj984Qk0qYBffvU"
     [params.analytics.naver]
       # 네이버 서치어드바이저(searchadvisor.naver.com) → 웹마스터도구
       #   → 사이트 등록 → 소유확인 → 'HTML 태그' 방식
