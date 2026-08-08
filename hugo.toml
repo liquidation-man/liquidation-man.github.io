@@ -57,7 +57,9 @@ summaryLength = 70
 #    넣는 곳: 아래 ID = "" 의 따옴표 안.
 [services]
   [services.googleAnalytics]
-    ID = ""
+    # 2026-08-08 등록. 속성 「개발일지 블로그」 · 스트림 liquidation-man.github.io
+    # 이 값도 서치콘솔 태그처럼 비밀이 아니다 — 모든 페이지에 실려 나간다.
+    ID = "G-DZQBKBVVPV"
 
 # ------------------------------------------------------------
 #  PaperMod 파라미터
