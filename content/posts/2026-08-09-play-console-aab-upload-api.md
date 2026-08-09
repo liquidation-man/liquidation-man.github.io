@@ -1,7 +1,7 @@
 ---
 title: "Play Console AAB 업로드 자동화 — Play Developer API 서비스 계정 설정과 403 PERMISSION_DENIED 해결"
 slug: "play-console-aab-upload-api"
-date: 2026-08-10T09:00:00+09:00
+date: 2026-08-09T19:43:06+09:00
 draft: false
 tags: ["안드로이드", "PlayConsole", "PlayDeveloperAPI", "서비스계정", "자동화", "Flutter", "androidpublisher"]
 categories: ["개발 인프라"]
