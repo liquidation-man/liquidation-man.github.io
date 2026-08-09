@@ -114,7 +114,15 @@ summaryLength = 70
     [params.analytics.naver]
       # 네이버 서치어드바이저(searchadvisor.naver.com) → 웹마스터도구
       #   → 사이트 등록 → 소유확인 → 'HTML 태그' 방식
-      SiteVerificationTag = ""
+      #
+      # 2026-08-09 등록. 구글 태그와 마찬가지로 비밀이 아니다 — 모든 페이지의
+      # <head> 에 그대로 실려 나가는 공개 문자열이고, 그게 소유 확인의 원리다.
+      # ⚠️ 지우면 소유권 확인이 풀려 네이버 색인이 끊긴다. 확인 후에도 남겨 둔다.
+      #
+      # 이걸 넣기 전 네이버에는 이 블로그도, 티스토리 쪽도 **한 건도 없었다**
+      # (2026-08-09 실측: 블로그명으로 검색해 링크 0건). 다음(Daum)은 이미
+      # 색인 중이었고 구글은 홈만 잡혀 있었다. 한국 검색의 절반 이상이 네이버다.
+      SiteVerificationTag = "478ca39a26586df7ffaac141f6da7a1624d010cd"
     [params.analytics.bing]
       # Bing 웹마스터도구(bing.com/webmasters). Search Console 에서 가져오기를
       # 쓰면 소유확인 없이 등록되므로 대개 이 값은 비워 둬도 된다.
