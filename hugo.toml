@@ -91,7 +91,7 @@ summaryLength = 70
 
   # --- AdSense (승인 후 ../config.yaml 의 adsense.client_id 만 채우면 활성) ---
   # 이 값이 비어 있으면 광고 스크립트가 삽입되지 않는다.
-  adsenseClientId = ""
+  adsenseClientId = "ca-pub-1815382154151862"
 
   # --- 검색엔진 소유확인 (PaperMod 내장 처리, 고정 커밋 154d006e 에서 확인) ---
   #
