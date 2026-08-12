@@ -93,6 +93,10 @@ summaryLength = 70
   # 이 값이 비어 있으면 광고 스크립트가 삽입되지 않는다.
   adsenseClientId = "ca-pub-1815382154151862"
 
+  # 글이 `ebook:` 을 지정하지 않았을 때 붙는 기본 전자책 키(`data/ebooks.yaml`).
+  # 자동 발행되는 개발일지가 이걸 받는다. 아무것도 안 붙이려면 빈 문자열.
+  defaultEbook = "claude-code"
+
   # --- 검색엔진 소유확인 (PaperMod 내장 처리, 고정 커밋 154d006e 에서 확인) ---
   #
   # ⚠️ 여기도 **빈 값으로 둔다.** 테마가 `if` 로 감싸므로 빈 값이면 meta 태그가

@@ -1,60 +1,71 @@
 {{- /*
   글 본문 바로 아래(태그 위)에 붙는 전자책 안내.
   PaperMod 가 layouts/single.html 에서 부르는 확장 지점이다.
-  글마다 손으로 넣지 않으므로 자동 발행되는 개발일지에도 그대로 들어간다.
-  빼고 싶은 글에는 front matter 에 `no_ebook_cta: true`.
 
-  ⚠ 경로 주의 — 이 테마는 새 Hugo 레이아웃 구조라 `layouts/_partials/` 다.
-  `layouts/partials/` 에 두면 조용히 무시된다(실제로 한 번 그렇게 날렸다).
-  훅 목록: extend_head.html · extend_footer.html · extend_post_content.html
+  ── 무엇이 나오나 (2026-08-12 오너 지시로 바뀜) ─────────────────────────────
+  오너 원문: "다음부터는 내용에 가장 근접한 전자책을 넣어줘, 전부 엉뚱한내용이면 그냥 빼"
 
-  ⚠ 문구 규칙 — 답을 적지 말 것.
-  블로그는 무료이고 책은 유료다. 「그래서 원인은 PATH였다」 같은 결론을 여기 적으면
-  파는 물건을 공짜로 주는 셈이다. 증상만 늘어놓고 답은 책에 둔다.
+  전에는 책 하나가 이 파일에 하드코딩돼 있어서 **모든 글에 같은 책**이 붙었다.
+  그래서 세금 글 아래에 클로드 코드 책이 붙어 있었다 — 그게 이 변경의 계기다.
 
-  ⚠ 상품명은 래피드 실물과 글자 단위로 맞춘다.
-  정본은 `biz` → `channels/ebook/README.md` 이고, 최종 확인은 판매 페이지다
-  (https://www.latpeed.com/products/C1qGw). 2026-08-08 에 래피드에서 이름을 바꿨는데
-  여기가 옛 이름으로 남아 **없는 상품을 광고하고 있었다** — 누른 사람은 다른 이름의
-  페이지를 봤다. 상품명을 고치는 날은 이 파일과 저장소 CLAUDE.md 를 같이 고친다.
-  (부제 「(PDF 20쪽)」은 아래 줄에서 이미 말하므로 제목에서는 뺀다.)
+  이제 목록은 `data/ebooks.yaml` 이고, 고르는 것은 글이다:
 
-  ⚠ 이 파일도 전자책 유출 검사 대상이다(2026-08-08부터).
-  워크플로가 `content/posts/**` 만 보던 시절에는 여기가 통째로 사각지대였다 —
-  상시 노출되는 판매 카피가 정작 검사를 안 받고 있었다.
+    front matter          결과
+    ────────────────────  ──────────────────────────────────
+    ebook: pc-death       그 책이 나온다
+    ebook: claude-code    그 책이 나온다
+    (없음)                site.Params.defaultEbook 의 책
+    no_ebook_cta: true    아무것도 안 나온다  ← 끄는 방법은 이것 하나뿐이다
+    모르는 키             아무것도 안 나온다 (오타가 엉뚱한 책을 붙이지 않게)
+
+  ⚠ `ebook: ""` 로는 못 끈다 — Hugo 가 빈 문자열 파라미터를 흘려서 기본값으로
+    되돌아간다(2026-08-12 로컬 빌드로 확인). 끄려면 `no_ebook_cta: true` 를 쓴다.
+
+  **안 맞으면 빼는 것이 기본값이다.** 억지로 붙이지 마라 — 안 맞는 책이 붙어 있으면
+  광고가 아니라 잡음이고, 글의 신뢰까지 같이 깎는다.
+
+  자동 발행되는 개발일지는 front matter 를 손으로 못 넣으므로 `defaultEbook` 이 받는다.
+  기본값을 바꾸려면 `hugo.toml` 의 `defaultEbook` 하나만 고친다.
+
+  ── 지키는 것들 ────────────────────────────────────────────────────────────
+  ⚠ 경로 — 이 테마는 새 Hugo 레이아웃 구조라 `layouts/_partials/` 다.
+    `layouts/partials/` 에 두면 조용히 무시된다(실제로 한 번 그렇게 날렸다).
+
+  ⚠ 문구 규칙 — 답을 적지 말 것. 블로그는 무료이고 책은 유료다. 증상만 적고 답은 책에 둔다.
+
+  ⚠ 상품명은 래피드 실물과 글자 단위로 맞춘다. 최종 권위는 판매 페이지다.
+    2026-08-08 에 래피드에서 이름을 바꿨는데 여기가 옛 이름으로 남아 **없는 상품을
+    광고하고 있었다.** 이제 문구는 `data/ebooks.yaml` 한 곳에만 있다.
 
   ⚠ 「첫 3쪽 미리보기」 줄을 지우지 마라 (2026-08-09 추가).
-  래피드가 PDF 앞 3쪽을 자동으로 미리보기로 제공한다(상품 페이지의 「콘텐츠 미리보기」).
-  그런데 **그 사실이 이 CTA 에도 상세 설명에도 한 글자도 없었다.** 처음 보는 사람의
-  4,900원짜리 결정에서 위험을 낮추는 장치가 실제로 있는데 아무도 모르게 두고 있었다.
-  래피드가 미리보기 정책을 바꾸면 이 줄도 같이 고친다 — 없는 것을 약속하면 안 된다.
+    래피드가 PDF 앞 3쪽을 자동으로 미리보기로 제공한다. 처음 보는 사람의 결정에서
+    위험을 낮추는 장치가 실제로 있는데 아무도 모르게 두고 있었다.
+    래피드가 정책을 바꾸면 이 줄도 같이 고친다 — 없는 것을 약속하면 안 된다.
 
-  ⚠ 빌드가 깨지면 사이트가 통째로 내려간다. 문법을 복잡하게 쓰지 말 것.
-  다만 「검증을 못 한다」는 옛말이다 — 포터블 Hugo 로 push 전에 확인할 수 있다
-  (저장소 CLAUDE.md 참조).
+  ⚠ 이 파일과 `data/ebooks.yaml` 둘 다 전자책 유출 검사 대상이다.
+
+  ⚠ 빌드가 깨지면 사이트가 통째로 내려간다. 포터블 Hugo 로 push 전에 확인한다
+    (저장소 CLAUDE.md). 이 파일은 그렇게 검증하고 올렸다.
 */ -}}
 {{- if and (eq .Section "posts") (not .Params.no_ebook_cta) -}}
+{{- $key := .Params.ebook | default site.Params.defaultEbook -}}
+{{- with index (site.Data.ebooks | default dict) (string $key) -}}
 <div style="margin:2.5rem 0 0;padding:1.3rem 1.4rem;border:1px solid var(--primary);border-radius:10px;background:var(--code-bg);">
   <div style="font-size:0.8rem;letter-spacing:0.08em;opacity:0.6;margin-bottom:0.5rem;">전자책</div>
-  <strong style="font-size:1.08rem;line-height:1.5;">클로드 코드가 못 한다고 할 때, 실제로는 되는 8가지</strong>
+  <strong style="font-size:1.08rem;line-height:1.5;">{{ .title }}</strong>
   <p style="margin:0.7rem 0 0.5rem;opacity:0.85;line-height:1.9;">
-    「설치가 안 돼 있습니다」<br>
-    「권한이 없어서 못 합니다」<br>
-    「이건 직접 하셔야 합니다」<br>
-    「완료했습니다」
+    {{- range $i, $q := .quotes }}{{ if $i }}<br>{{ end }}{{ $q }}{{ end }}
   </p>
-  <p style="margin:0 0 0.5rem;opacity:0.85;line-height:1.7;">
-    AI가 이렇게 말할 때, 그게 사실인지 아닌지 어떻게 아나.
-    실제로 화면에 뜬 문구 여덟 개를 놓고 매번 무엇을 되물어야 하는지 정리했습니다.
-  </p>
+  <p style="margin:0 0 0.5rem;opacity:0.85;line-height:1.7;">{{ .body }}</p>
   <p style="margin:0 0 0.9rem;opacity:0.6;font-size:0.9rem;">
-    지어낸 사례 없이 실측만 · A4 20쪽 · 4,900원<br>
+    {{ .meta }}<br>
     <strong>판매 페이지에서 첫 3쪽을 미리 볼 수 있습니다.</strong>
   </p>
-  <a href="https://latpeed.com/products/C1qGw?utm_source=blog&amp;utm_medium=cta&amp;utm_campaign=ebook"
+  <a href="{{ .url }}?utm_source=blog&amp;utm_medium=cta&amp;utm_campaign=ebook"
      target="_blank" rel="noopener"
      style="display:inline-block;padding:0.55rem 1.2rem;border-radius:6px;background:var(--primary);color:var(--theme);text-decoration:none;font-weight:600;">
     보러 가기 →
   </a>
 </div>
+{{- end -}}
 {{- end -}}
