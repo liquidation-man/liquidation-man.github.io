@@ -17,6 +17,7 @@
     (없음)                site.Params.defaultEbook 의 책
     no_ebook_cta: true    아무것도 안 나온다  ← 끄는 방법은 이것 하나뿐이다
     모르는 키             아무것도 안 나온다 (오타가 엉뚱한 책을 붙이지 않게)
+    draft: true 인 책      아무것도 안 나온다 (자동 등록만 된 상태)
 
   ⚠ `ebook: ""` 로는 못 끈다 — Hugo 가 빈 문자열 파라미터를 흘려서 기본값으로
     되돌아간다(2026-08-12 로컬 빌드로 확인). 끄려면 `no_ebook_cta: true` 를 쓴다.
@@ -50,6 +51,9 @@
 {{- if and (eq .Section "posts") (not .Params.no_ebook_cta) -}}
 {{- $key := .Params.ebook | default site.Params.defaultEbook -}}
 {{- with index (hugo.Data.ebooks | default dict) (string $key) -}}
+{{- /* `draft: true` 는 동기화기가 자동 등록만 해 둔 상태다 — 판매 카피가
+     비어 있으므로 사람이 채우기 전에는 내보내지 않는다. */ -}}
+{{- if not .draft -}}
 <div style="margin:2.5rem 0 0;padding:1.3rem 1.4rem;border:1px solid var(--primary);border-radius:10px;background:var(--code-bg);">
   <div style="font-size:0.8rem;letter-spacing:0.08em;opacity:0.6;margin-bottom:0.5rem;">전자책</div>
   <strong style="font-size:1.08rem;line-height:1.5;">{{ .title }}</strong>
@@ -67,5 +71,6 @@
     보러 가기 →
   </a>
 </div>
+{{- end -}}
 {{- end -}}
 {{- end -}}
