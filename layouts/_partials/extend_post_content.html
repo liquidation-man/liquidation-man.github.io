@@ -49,7 +49,7 @@
 */ -}}
 {{- if and (eq .Section "posts") (not .Params.no_ebook_cta) -}}
 {{- $key := .Params.ebook | default site.Params.defaultEbook -}}
-{{- with index (site.Data.ebooks | default dict) (string $key) -}}
+{{- with index (hugo.Data.ebooks | default dict) (string $key) -}}
 <div style="margin:2.5rem 0 0;padding:1.3rem 1.4rem;border:1px solid var(--primary);border-radius:10px;background:var(--code-bg);">
   <div style="font-size:0.8rem;letter-spacing:0.08em;opacity:0.6;margin-bottom:0.5rem;">전자책</div>
   <strong style="font-size:1.08rem;line-height:1.5;">{{ .title }}</strong>
