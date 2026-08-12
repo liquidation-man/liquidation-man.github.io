@@ -51,6 +51,36 @@ description: "매일 밤 글을 내는 파이프라인을 다시 켰는데 하�
 
 23시 30분 예약은 지연 여유가 30분이다. 한 번 밀린 게 아니라 앞으로도 밀릴 구조였다.
 
+<figure class="cmp-time" role="group" aria-label="그날 밤 실제로 일어난 순서">
+<svg viewBox="0 0 640 96" xmlns="http://www.w3.org/2000/svg" font-size="13" role="img">
+<style>
+.cmp-time svg{display:block;width:100%;height:auto}
+.cmp-time{margin:1.5rem 0}
+.cmp-time svg{font-family:system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+.cmp-time .ink{fill:#212529}.cmp-time .mute{fill:#495057}
+.cmp-time .box{fill:#f1f3f5;stroke:#dee2e6}
+.cmp-time .line{stroke:#adb5bd;fill:none}
+.cmp-time .hit{fill:#2563eb}.cmp-time .warn{fill:#d97706}
+.cmp-time .on{fill:#ffffff}
+@media(prefers-color-scheme:dark){
+.cmp-time .ink{fill:#f8f9fa}.cmp-time .mute{fill:#adb5bd}
+.cmp-time .box{fill:#2e2e33;stroke:#495057}
+.cmp-time .line{stroke:#6c757d}
+.cmp-time .hit{fill:#6366f1}.cmp-time .warn{fill:#d97706}}
+</style>
+<path class="line" d="M60 46 L580 46" stroke-width="2"/>
+<circle class="hit" cx="60" cy="46" r="7"/>
+<text class="ink" x="60" y="28" text-anchor="middle" font-weight="600">23:30</text>
+<text class="mute" x="60" y="72" text-anchor="middle">예약 시각</text>
+<circle class="hit" cx="320" cy="46" r="7"/>
+<text class="ink" x="320" y="28" text-anchor="middle" font-weight="600">00:26</text>
+<text class="mute" x="320" y="72" text-anchor="middle">실제 실행</text>
+<circle class="hit" cx="580" cy="46" r="7"/>
+<text class="ink" x="580" y="28" text-anchor="middle" font-weight="600">14초 뒤</text>
+<text class="mute" x="580" y="72" text-anchor="middle">커밋 0건</text>
+</svg>
+<figcaption>그날 밤 실제로 일어난 순서 — 56분 지연으로 자정을 넘겼고, 대상 날짜가 어제에서 오늘로 바뀌었다</figcaption></figure>
+
 두 곳을 같이 고쳤다. 예약을 새벽 1시로 옮기고, 대상을 **이미 끝난 어제**로 바꿨다.
 이제 몇 시간이 밀려도 대상은 안 변한다. 하는 김에 23시 30분부터 자정 사이 커밋도
 담기게 됐다 — 전에는 매일 그 30분이 통째로 빠지고 있었는데, 이건 이번에 알았다.

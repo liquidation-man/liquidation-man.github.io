@@ -137,6 +137,36 @@ Play Console 에서 그 서비스 계정을 열어보니 상태가 **「활성�
 원인은 시간이 아니라 **위에서 말한 읽기 권한 체크박스**였다. 그걸 켜자 같은 호출이
 **즉시** 통과했다.
 
+<figure class="cmp-gate" role="group" aria-label="서비스 계정에 필요한 Play Console 권한">
+<svg viewBox="0 0 640 194" xmlns="http://www.w3.org/2000/svg" font-size="13" role="img">
+<style>
+.cmp-gate svg{display:block;width:100%;height:auto}
+.cmp-gate{margin:1.5rem 0}
+.cmp-gate svg{font-family:system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+.cmp-gate .ink{fill:#212529}.cmp-gate .mute{fill:#495057}
+.cmp-gate .box{fill:#f1f3f5;stroke:#dee2e6}
+.cmp-gate .line{stroke:#adb5bd;fill:none}
+.cmp-gate .hit{fill:#2563eb}.cmp-gate .warn{fill:#d97706}
+.cmp-gate .on{fill:#ffffff}
+@media(prefers-color-scheme:dark){
+.cmp-gate .ink{fill:#f8f9fa}.cmp-gate .mute{fill:#adb5bd}
+.cmp-gate .box{fill:#2e2e33;stroke:#495057}
+.cmp-gate .line{stroke:#6c757d}
+.cmp-gate .hit{fill:#6366f1}.cmp-gate .warn{fill:#d97706}}
+</style>
+<rect class="box" x="40" y="8" width="560" height="42" rx="8" stroke-width="1"/>
+<text class="ink" x="62" y="34">1. 앱 정보 보기 및 보고서 일괄 다운로드(읽기 전용)</text>
+<path class="line" d="M320 50 L320 68" stroke-width="2"/>
+<path class="line" d="M315 63 L320 69 L325 63" stroke-width="2"/>
+<rect class="box" x="40" y="76" width="560" height="42" rx="8" stroke-width="1"/>
+<text class="ink" x="62" y="102">2. 앱을 테스트 트랙으로 출시</text>
+<path class="line" d="M320 118 L320 136" stroke-width="2"/>
+<path class="line" d="M315 131 L320 137 L325 131" stroke-width="2"/>
+<rect class="hit" x="40" y="144" width="560" height="42" rx="8"/>
+<text class="on" x="62" y="170" font-weight="600">✓ edits 생성 통과</text>
+</svg>
+<figcaption>서비스 계정에 필요한 Play Console 권한 — 조건을 모두 넘어야 한다. 하나만 켜면 403 PERMISSION_DENIED 다</figcaption></figure>
+
 ```
 [+] edit 06179532489441590844
     트랙 production: versionCodes=-
