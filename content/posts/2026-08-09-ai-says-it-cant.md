@@ -44,6 +44,38 @@ AI 코딩 도구를 하루 종일 붙여 놓고 쓰다 보면, 일보다 **판�
 그대로가 아니었다.** 없다던 것이 있었고, 못 한다던 것이 되는 일이었고,
 했다던 것이 안 돼 있었다.
 
+<figure class="cmp-notes" role="group" aria-label="여덟 개 문구의 공통점">
+<svg viewBox="0 0 640 158" xmlns="http://www.w3.org/2000/svg" font-size="13" role="img">
+<style>
+.cmp-notes svg{display:block;width:100%;height:auto}
+.cmp-notes{margin:1.5rem 0}
+.cmp-notes svg{font-family:system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+.cmp-notes .ink{fill:#212529}.cmp-notes .mute{fill:#495057}
+.cmp-notes .box{fill:#f1f3f5;stroke:#dee2e6}
+.cmp-notes .line{stroke:#adb5bd;fill:none}
+.cmp-notes .hit{fill:#2563eb}.cmp-notes .warn{fill:#d97706}
+.cmp-notes .on{fill:#ffffff}
+@media(prefers-color-scheme:dark){
+.cmp-notes .ink{fill:#f8f9fa}.cmp-notes .mute{fill:#adb5bd}
+.cmp-notes .box{fill:#2e2e33;stroke:#495057}
+.cmp-notes .line{stroke:#6c757d}
+.cmp-notes .hit{fill:#6366f1}.cmp-notes .warn{fill:#d97706}}
+</style>
+<rect class="box" x="40" y="8" width="560" height="40" rx="8" stroke-width="1"/>
+<rect class="hit" x="40" y="8" width="4" height="40" rx="2"/>
+<text class="mute" x="58" y="33" font-weight="600" font-size="12">없다더니</text>
+<text class="ink" x="124" y="33">실제로는 있었다</text>
+<rect class="box" x="40" y="58" width="560" height="40" rx="8" stroke-width="1"/>
+<rect class="hit" x="40" y="58" width="4" height="40" rx="2"/>
+<text class="mute" x="58" y="83" font-weight="600" font-size="12">못 한다더니</text>
+<text class="ink" x="150" y="83">되는 일이었다</text>
+<rect class="box" x="40" y="108" width="560" height="40" rx="8" stroke-width="1"/>
+<rect class="hit" x="40" y="108" width="4" height="40" rx="2"/>
+<text class="mute" x="58" y="133" font-weight="600" font-size="12">했다더니</text>
+<text class="ink" x="124" y="133">안 돼 있었다</text>
+</svg>
+<figcaption>여덟 개 문구의 공통점 — 도구가 거짓말을 한 게 아니라, 못 본 것을 「없다」고 말한 것이다</figcaption></figure>
+
 > 각 장의 제목은 이 상황들에서 **실제로 화면에 떴던 영문·한글 문구 그대로**다.
 > 그 문구들은 [판매 페이지의 목차](https://latpeed.com/products/C1qGw?utm_source=blog&utm_medium=post&utm_campaign=ebook)에
 > 전부 공개돼 있으니, 내가 겪은 게 지금 겪는 것과 같은 상황인지 거기서 먼저 맞춰 보면 된다.
