@@ -1,6 +1,6 @@
 ---
 title: "UI Sound Pack — 8-bit / Retro Interface"
-date: 2026-08-21
+date: 2026-08-21T01:23:56+09:00
 slug: "ui-sound-pack-8-bit-retro-interface"
 tags: ["2d", "asset-pack", "gui", "retro", "sound-effects", "user-interface", "wav"]
 summary: "Square-wave interface sounds with an 8-bit feel. For retro UI, menus and pixel-art games."
