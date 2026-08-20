@@ -1,6 +1,6 @@
 ---
 title: "Potion Icon Pack — 8 Alchemy Icons"
-date: 2026-08-21
+date: 2026-08-21T01:23:58+09:00
 slug: "potion-icon-pack-8-alchemy-icons"
 tags: ["2d", "asset-pack", "fantasy", "icons", "inventory", "rpg"]
 summary: "Potion and alchemy icons for inventory, shop and crafting screens."
