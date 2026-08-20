@@ -48,6 +48,27 @@
   }
   code = code.replace(/#_$/, '').replace(/#$/, '');
 
+  // ── 자동 중계 ───────────────────────────────────────────────
+  // GitHub Pages 는 정적이라 코드를 직접 못 받는다. 그래서 받은 쿼리 전체를
+  // VPS 의 Tailscale Funnel 로 넘긴다(state 포함). 성공하면 오너는 아무것도
+  // 안 눌러도 된다. 실패하면 아래의 손복사 UI 가 그대로 남는다 —
+  // VPS 가 꺼져 있거나 Funnel 이 내려가 있을 때가 그 경우다.
+  var RELAY = 'https://hermes-vps.tailb2fdeb.ts.net/th/relay';
+  out.innerHTML = '<p class="hint">서버로 전달하는 중…</p>';
+  var done = false;
+  var t = setTimeout(function () { if (!done) { done = true; manual(); } }, 8000);
+  fetch(RELAY + location.search, { mode: 'cors', cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.text() : Promise.reject(r.status); })
+    .then(function () {
+      if (done) return; done = true; clearTimeout(t);
+      out.innerHTML = '<p class="ok">완료됐습니다. 이 창은 닫으셔도 됩니다.</p>'
+        + '<p class="hint">토큰 교환·저장·검증은 서버가 이어서 합니다.</p>';
+    })
+    .catch(function () { if (!done) { done = true; clearTimeout(t); manual(); } });
+  return;
+
+  function manual() {
+
   out.innerHTML = '<p class="ok">인증 성공. 아래 코드를 복사해 서버에서 토큰으로 교환하세요.</p>'
     + '<div class="box"><div class="label">authorization code</div><code id="c">' + esc(code) + '</code></div>'
     + '<button id="bu">주소 전체 복사 (권장)</button> <button id="b">코드만 복사</button>'
@@ -66,6 +87,8 @@
   }
   document.getElementById('bu').onclick = function () { copy(location.href, '주소 복사됨'); };
   document.getElementById('b').onclick = function () { copy(code, '코드 복사됨'); };
+
+  }
 
   function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 })();
