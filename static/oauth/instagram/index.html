@@ -50,16 +50,22 @@
 
   out.innerHTML = '<p class="ok">인증 성공. 아래 코드를 복사해 서버에서 토큰으로 교환하세요.</p>'
     + '<div class="box"><div class="label">authorization code</div><code id="c">' + esc(code) + '</code></div>'
-    + '<button id="b">코드 복사</button> <span id="m" class="hint"></span>'
-    + '<p class="hint" style="margin-top:22px">⚠️ 이 코드는 <b>1시간 동안, 단 한 번만</b> 사용할 수 있습니다.</p>';
+    + '<button id="bu">주소 전체 복사 (권장)</button> <button id="b">코드만 복사</button>'
+    + ' <span id="m" class="hint"></span>'
+    + '<p class="hint" style="margin-top:14px">「주소 전체 복사」를 쓰면 서버가 <code style="display:inline">state</code> 까지 검증합니다. '
+    + '코드만 넘기면 이 인가가 우리가 시작한 것인지 확인할 방법이 없습니다.</p>'
+    + '<p class="hint" style="margin-top:14px">⚠️ 이 코드는 <b>1시간 동안, 단 한 번만</b> 사용할 수 있습니다.</p>';
 
-  document.getElementById('b').onclick = function () {
-    navigator.clipboard.writeText(code).then(function () {
-      document.getElementById('m').textContent = '복사됨';
-    }, function () {
-      document.getElementById('m').textContent = '복사 실패 — 직접 선택해 복사하세요';
-    });
-  };
+  // 🔴 주소 전체가 기본이다. code 만 넘기면 서버가 state 를 대조할 수 없어서,
+  //    우리가 시작하지 않은 인가 결과를 그대로 삼키게 된다(CSRF).
+  function copy(text, okMsg) {
+    var m = document.getElementById('m');
+    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject())
+      .then(function () { m.textContent = okMsg; },
+            function () { m.textContent = '복사 실패 — 아래 글자를 직접 선택해 복사하세요'; });
+  }
+  document.getElementById('bu').onclick = function () { copy(location.href, '주소 복사됨'); };
+  document.getElementById('b').onclick = function () { copy(code, '코드 복사됨'); };
 
   function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 })();
